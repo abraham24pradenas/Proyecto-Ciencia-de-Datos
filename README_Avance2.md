@@ -37,13 +37,19 @@ Con el fin de evitar la dispersión provocada por el análisis individual de cad
   3. *Potasio y Fertilizantes*: Agrupa los nitratos de potasio, salitre y sales potásicas destinadas principalmente a la industria agrícola mundial.
   4. *Otros No Metálicos*: Agrupa el resto de minerales no metálicos complementarios presentes en las estadísticas de comercio exterior chileno.
 
-## 4. Proceso de Limpieza, Estandarización y Análisis Exploratorio de Datos (EDA)
-A partir de la integración automatizada de las APIs y de la creación de las nuevas agrupaciones estructurales, los datos pasaron por un riguroso proceso técnico de depuración: se trataron valores nulos críticos, se corrigieron inconsistencias categóricas en las denominaciones geográficas y se estandarizaron formatos numéricos, generando como resultado el archivo maestro consolidado `Mineria_Final.csv`.
-
-Sobre este dataset procesado, se ejecutó el **Análisis Exploratorio de Datos (EDA)** estructurado en el cuaderno de trabajo y plasmado de forma interactiva en la aplicación Streamlit. Esto permitió examinar a fondo las distribuciones univariadas de la variable objetivo ($Y$) —tanto el valor FOB en dólares como el volumen físico en toneladas—, contrastar las diferencias de comportamiento comercial entre las distintas familias de productos y regiones geográficas, y evaluar de manera preliminar la presencia de patrones, tendencias temporales ($T$) y relaciones lineales o no lineales frente a las variables predictoras ($X$).
+## 4. Análisis Exploratorio de Datos (EDA) y Hallazgos Principales
+El Análisis Exploratorio de Datos (EDA), desarrollado en el cuaderno de trabajo `02_eda.ipynb` y expuesto interactivamente a través de las tres páginas de la aplicación Streamlit, permitió profundizar en el comportamiento y las dinámicas de las variables del proyecto:
+* **Estructura y Calidad de Datos**: Se analizó la integridad del dataset consolidado (`Mineria_Final.csv`), evaluando dimensiones, tipos de variables y aplicando un tratamiento riguroso sobre valores nulos e inconsistencias categóricas detectadas tras la integración de las fuentes externas.
+* **Análisis de la Variable Objetivo ($Y$)**: Se examinó la distribución del Valor FOB (en miles de USD) y del Volumen Físico (en toneladas), identificando asimetrías marcadas, concentración de valores en productos clave (como el litio y el yodo) y la presencia de registros atípicos que deberán considerarse en futuras etapas.
+* **Relaciones entre Predictores ($X$) y Objetivo ($Y$)**: Se exploraron asociaciones entre el valor de exportación, los precios unitarios, el tipo de cambio y los indicadores macroeconómicos de destino (`PIB_Pais_Destino`, inflación), identificando tanto comportamientos lineales como relaciones no lineales condicionadas por la dinámica de los mercados internacionales.
+* **Dimensión Temporal y Contextual ($T$)**: Se estudió la evolución histórica de las exportaciones entre 2005 y 2024, evidenciando tendencias de crecimiento, ciclos económicos y diferencias estructurales importantes entre las distintas **Regiones de Destino** y **Familias de Producto**.
+* **Hallazgos Principales**: 
+  1. La concentración de las exportaciones no metálicas recae fuertemente en las regiones de Asia-Pacífico y Norteamérica, impulsadas fundamentalmente por la familia del litio.
+  2. Se observa una relación directa entre el dinamismo del PIB del país de destino y el volumen importado de sales potásicas y fertilizantes.
+  3. Las fluctuaciones del tipo de cambio local generan variaciones y desfases temporales en la competitividad de los valores FOB declarados.
 
 ## 5. Estructura del Repositorio de GitHub
-El repositorio se encuentra organizado de la siguiente manera para separar los datos originales, los datos procesados, la documentación técnica y los códigos fuente de la aplicación:
+El repositorio mantiene una organización modular y limpia para facilitar su revisión:
 
 ```text
 Proyecto-Ciencia-de-Datos/
@@ -63,7 +69,7 @@ Proyecto-Ciencia-de-Datos/
 ├── figures/
 │   └── .gitkeep
 ├── src/
-│   └── app/                  (o src/EDA/)
+│   └── app/
 │       ├── Inicio.py
 │       └── pages/
 │           ├── 1_EDA.py
@@ -71,3 +77,26 @@ Proyecto-Ciencia-de-Datos/
 ├── requirements.txt
 ├── README.md                 (Documentación del Avance 1)
 └── README_Avance2.md         (Documentación detallada del Avance 2 - Este archivo)
+```
+
+## 6. Instrucciones de Ejecución
+Para poner en marcha la aplicación interactiva de Streamlit en un entorno local y verificar los resultados del EDA:
+
+1. Clonar o descargar el repositorio y abrir una terminal en la carpeta raíz del proyecto.
+2. Instalar las dependencias requeridas ejecutando el siguiente comando en la consola:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Ejecutar la aplicación multi-página con el comando de Streamlit:
+   ```bash
+   streamlit run src/app/Inicio.py
+   ```
+
+## 7. Principales Dependencias del Proyecto
+El proyecto utiliza herramientas de código abierto en Python especificadas en el archivo `requirements.txt`:
+* `streamlit`: Framework principal para el desarrollo de la aplicación web interactiva de tres páginas.
+* `pandas` y `numpy`: Librerías fundamentales para la manipulación, limpieza y agregación tabular de datos.
+* `plotly`: Herramienta avanzada para la generación de visualizaciones interactivas orientadas al análisis exploratorio.
+* `wbgapi`: Interfaz de conexión directa con las bases de datos estadísticas del Banco Mundial.
+* `yfinance`: Librería de extracción de datos financieros históricos de Yahoo Finance.
+* `pycountry`: Utilidad para la normalización y conversión de nombres y códigos internacionales de países.
